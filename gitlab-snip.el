@@ -31,7 +31,7 @@
 ;;; Code:
 (require 'json)
 
-(defvar gitlab-snip-user-token "*********"
+(defvar gitlab-snip-user-token ""
   "This is the required token for using the api: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html.")
 
 (defvar gitlab-snip-visibility "public"
@@ -48,8 +48,8 @@
   (let
     ((url-request-method "POST")
      (url-request-extra-headers
-      '(("Content-Type" . "application/json")
-	("Private-Token" . "W1QdiYqySJAZ_WGp2x12")))
+      (list (cons "Content-Type"  "application/json")
+       (cons "Private-Token"  gitlab-snip-user-token)))
      (url-request-data (concat
 			"{\"title\": \"" snippet--name " \",
                          \"content\": "snippet--text",
