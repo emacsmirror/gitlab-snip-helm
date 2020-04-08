@@ -11,12 +11,13 @@
 ** Usage
    
 [[https://gitlab.com/sasanidas/gitlab-snip/-/raw/master/examples/snip.gif]]
+
    Main function is:
      #+BEGIN_SRC emacs-lisp 
      (gitlan-snip-send)
    #+END_SRC
 
-
+   
 ** License
 gitlab-snip Copyright © 2020 by Fermin Munoz <fmfs@posteo.net>
 
