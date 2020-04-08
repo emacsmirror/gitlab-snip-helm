@@ -14,7 +14,7 @@
 
    Main function is:
      #+BEGIN_SRC emacs-lisp 
-     (gitlan-snip-send)
+     (gitlab-snip-send)
    #+END_SRC
 
    
