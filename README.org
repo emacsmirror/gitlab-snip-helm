@@ -1,0 +1,34 @@
+* Gitlab-snip
+  This is a simple package that save the selected text to a Gitlab snippet
+  for now, it only works with gitlab.com
+** Configuration
+   
+     #+BEGIN_SRC emacs-lisp 
+     (require 'gitlab-snip)
+     (setq gitlab-snip-user-token "SECRET-TOKEN")
+   #+END_SRC
+
+** Usage
+   
+[[https://gitlab.com/sasanidas/gitlab-snip/-/raw/master/examples/snip.gif]]
+   Main function is:
+     #+BEGIN_SRC emacs-lisp 
+     (gitlan-snip-send)
+   #+END_SRC
+
+
+** License
+gitlab-snip Copyright © 2020 by Fermin Munoz <fmfs@posteo.net>
+
+gitlab-snip is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+gitlab-snip is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with gitlab-snip.  If not, see <http://www.gnu.org/licenses/>.

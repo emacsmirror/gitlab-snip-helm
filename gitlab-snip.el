@@ -7,7 +7,7 @@
 ;; Version: 0.0.1
 ;; Keywords: languages, basic
 
-;; URL: https://gitlab.com/sasanidas/emacs-c64-basic-ide
+;; URL: https://gitlab.com/sasanidas/gitlab-snip
 ;; Package-Requires: ((emacs "25"))
 ;; License: GPL-3.0-or-later
 
@@ -58,4 +58,5 @@
                          \"visibility\": \""gitlab-snip-visibility"\" }")))
     (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))))
 
+(provide 'gitlab-snip)
 ;;; gitlab-snip.el ends here
