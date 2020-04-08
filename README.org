@@ -1,6 +1,17 @@
 * Gitlab-snip
   This is a simple package that save the selected text to a Gitlab snippet
   for now, it only works with gitlab.com
+
+** Install
+*** Quelpa
+    You can install it with [[https://github.com/quelpa/quelpa][quelpa]]:
+
+     #+BEGIN_SRC emacs-lisp 
+     (quelpa '(gitlab-snip :fetcher git :url "https://gitlab.com/sasanidas/gitlab-snip.git"))
+   #+END_SRC
+
+*** Melpa
+    WIP
 ** Configuration
    
      #+BEGIN_SRC emacs-lisp 
