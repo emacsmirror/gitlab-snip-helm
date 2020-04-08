@@ -41,8 +41,8 @@
 (defun gitlab-snip-send ()
   "Create an snippet with the selected area."
   (interactive)
-  (let* ((snippet--name (read-from-minibuffer "Inserta el nombre del snippet: "))
-	 (snippet--description (read-from-minibuffer "Inserta la descripcion: "))
+  (let* ((snippet--name (read-from-minibuffer "Insert snippet name: "))
+	 (snippet--description (read-from-minibuffer "Insert the snippet description: "))
 	 (snippet--text
 	  (json-encode (let* ((pos1 (region-beginning)) (pos2 (region-end)))(filter-buffer-substring pos1 pos2)))))
   (let
