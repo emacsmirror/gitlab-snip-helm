@@ -37,6 +37,9 @@
 (defvar gitlab-snip-visibility "public"
   "Snippets default visibility.")
 
+(defvar gitlab-snip-server "https://gitlab.com"
+  "Gitlab server to save the snippets.")
+
 
 (defun gitlab-snip-send ()
   "Create an snippet with the selected area."
@@ -45,18 +48,18 @@
 	 (snippet--description (read-from-minibuffer "Insert the snippet description: "))
 	 (snippet--text
 	  (json-encode (let* ((pos1 (region-beginning)) (pos2 (region-end)))(filter-buffer-substring pos1 pos2)))))
-  (let
-    ((url-request-method "POST")
-     (url-request-extra-headers
-      (list (cons "Content-Type"  "application/json")
-       (cons "Private-Token"  gitlab-snip-user-token)))
-     (url-request-data (concat
-			"{\"title\": \"" snippet--name " \",
+    (let
+	((url-request-method "POST")
+	 (url-request-extra-headers
+	  (list (cons "Content-Type"  "application/json")
+		(cons "Private-Token"  gitlab-snip-user-token)))
+	 (url-request-data (concat
+			    "{\"title\": \"" snippet--name " \",
                          \"content\": "snippet--text",
                          \"description\": \"" snippet--description"\",
                          \"file_name\": \"" (buffer-name) "\",
                          \"visibility\": \""gitlab-snip-visibility"\" }")))
-    (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))))
+      (url-retrieve-synchronously (concat gitlab-snip-server "/api/v4/snippets")))))
 
 (provide 'gitlab-snip)
 ;;; gitlab-snip.el ends here
