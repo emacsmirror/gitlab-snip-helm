@@ -19,6 +19,8 @@
      #+BEGIN_SRC emacs-lisp 
      (require 'gitlab-snip)
      (setq gitlab-snip-user-token "SECRET-TOKEN")
+     (setq gitlab-snip-visibility "public")
+     (setq gitlab-snip-server "https://gitlab.com")
    #+END_SRC
 
 ** Usage
