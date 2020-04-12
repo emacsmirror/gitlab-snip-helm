@@ -65,7 +65,7 @@
 
 
 (defun gitlab--snippet-actions ( action &optional  snippet-id)
-"Function for gitlab-snip-helm actions SNIPPET-ID ACTION."
+  "Function for gitlab-snip-helm actions SNIPPET-ID ACTION."
   (cond ((string-equal action "Insert")
 	 (with-current-buffer (let
 				  ((url-request-extra-headers
@@ -77,31 +77,31 @@
 	   (buffer-string)))
 	((string-equal action "All-snippets")
 	 (with-current-buffer
-				   (let
-				       ((url-request-extra-headers
-					 (list (cons "Private-Token" gitlab-snip-user-token))))
-				     (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
-				 (json-read)))))
+	     (let
+		 ((url-request-extra-headers
+		   (list (cons "Private-Token" gitlab-snip-user-token))))
+	       (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
+	   (json-read)))))
 
 ;; TODO The lexical scope is not working
 (defun gitlab-snip-helm-snippets ()
-   "Insert selected snippet in the current mark."
-   (interactive)
-   (let* () (setq gitlab--request-result (gitlab--snippet-actions "All-snippets"))
-     
-     (setq helm-source-user-snippets
-	   (helm-build-sync-source "gitlab-snip"
-	     :candidates (-map (lambda (x)
-				 (cdr (nth 1 x)))
-			       gitlab--request-result)
-	     :action '(("Insert" . (lambda (selected) (insert
-						       (let* ((snippet--id (car (-non-nil (-map (lambda (x)
-										 (if (string-equal selected (cdr (nth 1 x)) )
-										     (number-to-string (cdr (nth 0 x)))))
-									       gitlab--request-result)))  ))
-							 (gitlab--snippet-actions "Insert" snippet--id ))))))))
-     (helm :sources '(helm-source-user-snippets)
-	   :buffer "*helm gitlab-snip*")))
+  "Insert selected snippet in the current mark."
+  (interactive)
+  (let* () (setq gitlab--request-result (gitlab--snippet-actions "All-snippets"))
+	
+	(setq helm-source-user-snippets
+	      (helm-build-sync-source "gitlab-snip"
+		:candidates (-map (lambda (x)
+				    (cdr (nth 1 x)))
+				  gitlab--request-result)
+		:action '(("Insert" . (lambda (selected) (insert
+							  (let* ((snippet--id (car (-non-nil (-map (lambda (x)
+												     (if (string-equal selected (cdr (nth 1 x)) )
+													 (number-to-string (cdr (nth 0 x)))))
+												   gitlab--request-result)))  ))
+							    (gitlab--snippet-actions "Insert" snippet--id ))))))))
+	(helm :sources '(helm-source-user-snippets)
+	      :buffer "*helm gitlab-snip*")))
 
 
 
