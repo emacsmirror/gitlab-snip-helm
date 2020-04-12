@@ -1,8 +1,7 @@
 * Gitlab-snip
 [[License: GPL v3][https://img.shields.io/badge/License-GPLv3-blue.svg]]
  
-  This is a simple package that save the selected text to a Gitlab snippet
-  for now, it only works with gitlab.com
+  This is a simple package that save the selected text to a Gitlab snippet.
 
 ** Install
 *** Quelpa
