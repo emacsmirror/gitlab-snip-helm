@@ -1,11 +1,11 @@
-;;; gitlab-snip.el --- Gitlab snippets api conexion                  -*- lexical-binding: t; -*-
+;;; gitlab-snip-helm.el --- Gitlab snippets api helm package                  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  Fermin Munoz
 
 ;; Author: Fermin MF <fmfs@posteo.net>
-;; Created: 8 Abril 2020
-;; Version: 0.0.1
-;; Keywords: languages, basic
+;; Created: 13 Abril 2020
+;; Version: 0.0.2
+;; Keywords: helm,gitlab,snippet,snippets
 
 ;; URL: https://gitlab.com/sasanidas/gitlab-snip
 ;; Package-Requires: ((emacs "25") (dash "2.17.0") (helm "1.5.9"))
@@ -26,12 +26,13 @@
 
 ;;; Commentary:
 
-;; Small function that send the selected text to gitlab, and creates an snippet.
+;; This package manage gitlab snippets with the help of helm framework.
 
 ;;; Code:
 
 (require 'dash)
 (require 'helm)
+(require 'json)
 
 (defvar gitlab-snip-user-token ""
   "This is the required token for using the api: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html.")
@@ -43,8 +44,8 @@
   "Gitlab server to save the snippets.")
 
 
-(defun gitlab-snip-send ()
-  "Create an snippet with the selected area."
+(defun gitlab-snip-helm-send ()
+  "Create an snippet with the selected area and send it to the gitlab selected server."
   (interactive)
   (let* ((snippet--name (read-from-minibuffer "Insert snippet name: "))
 	 (snippet--description (read-from-minibuffer "Insert the snippet description: "))
@@ -64,8 +65,8 @@
       (url-retrieve-synchronously (concat gitlab-snip-server "/api/v4/snippets")))))
 
 
-(defun gitlab--snippet-actions ( action &optional  snippet-id)
-  "Function for gitlab-snip-helm actions SNIPPET-ID ACTION."
+(defun gitlab-snip-helm--actions ( action &optional  snippet-id)
+  "Helped function to define the diferent snippets acctions, it requires the action defined string ACTION and an optional SNIPPET-ID."
   (cond ((string-equal action "Insert")
 	 (with-current-buffer (let
 				  ((url-request-extra-headers
@@ -75,7 +76,8 @@
 	   (re-search-forward "^$")
 	   (delete-region (point) (point-min))
 	   (buffer-string)))
-	((string-equal action "All-snippets")
+
+	((string-equal action "Get-snippets")
 	 (with-current-buffer
 	     (let
 		 ((url-request-extra-headers
@@ -83,27 +85,23 @@
 	       (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
 	   (json-read)))))
 
-;; TODO The lexical scope is not working
 (defun gitlab-snip-helm-snippets ()
-  "Insert selected snippet in the current mark."
+  "Helm extension that insert the selected snippet in the current buffer mark."
   (interactive)
-  (let* () (setq gitlab--request-result (gitlab--snippet-actions "All-snippets"))
-	
-	(setq helm-source-user-snippets
-	      (helm-build-sync-source "gitlab-snip"
-		:candidates (-map (lambda (x)
-				    (cdr (nth 1 x)))
-				  gitlab--request-result)
-		:action '(("Insert" . (lambda (selected) (insert
-							  (let* ((snippet--id (car (-non-nil (-map (lambda (x)
-												     (if (string-equal selected (cdr (nth 1 x)) )
-													 (number-to-string (cdr (nth 0 x)))))
-												   gitlab--request-result)))  ))
-							    (gitlab--snippet-actions "Insert" snippet--id ))))))))
-	(helm :sources '(helm-source-user-snippets)
-	      :buffer "*helm gitlab-snip*")))
+  (let* ((helm-source-user-snippets
+	  (helm-build-sync-source "gitlab-snip"
+	    :candidates (-map (lambda (x)
+				(cdr (nth 1 x)))
+			      (gitlab-snip-helm--actions "Get-snippets"))
+	    :action '(("Insert" . (lambda (selected) (insert (let*
+								 ((snippet--id (car
+										(-non-nil (-map (lambda (x)
+												  (if (string-equal selected (cdr (nth 1 x)) )
+												      (number-to-string (cdr (nth 0 x)))))
+												(gitlab-snip-helm--actions "Get-snippets"))))))
+							       (gitlab--snippet--actions "Insert" snippet--id )))))))))
+    (helm :sources (list  helm-source-user-snippets)
+	  :buffer "*helm gitlab-snip*")))
 
-
-
-(provide 'gitlab-snip)
-;;; gitlab-snip.el ends here
+(provide 'gitlab-snip-helm)
+;;; gitlab-snip-helm.el ends here
