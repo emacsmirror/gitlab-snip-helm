@@ -1,14 +1,16 @@
-* Gitlab-snip
+* Gitlab-snip-helm
 [[License: GPL v3][https://img.shields.io/badge/License-GPLv3-blue.svg]]
  
-  This is a simple package that save the selected text to a Gitlab snippet.
+  Package that provide gitlab snippet API interaction, for now it support:
+  + Save a snippet
+  + Insert saved snippet
 
 ** Install
 *** Quelpa
     You can install it with [[https://github.com/quelpa/quelpa][quelpa]]:
 
      #+BEGIN_SRC emacs-lisp 
-     (quelpa '(gitlab-snip :fetcher git :url "https://gitlab.com/sasanidas/gitlab-snip.git"))
+     (quelpa '(gitlab-snip-helm :fetcher git :url "https://gitlab.com/sasanidas/gitlab-snip.git"))
    #+END_SRC
 
 *** Melpa
@@ -16,34 +18,40 @@
 ** Configuration
    
      #+BEGIN_SRC emacs-lisp 
-     (require 'gitlab-snip)
-     (setq gitlab-snip-user-token "SECRET-TOKEN")
-     (setq gitlab-snip-visibility "public")
-     (setq gitlab-snip-server "https://gitlab.com")
+     (require 'gitlab-snip-helm)
+     (setq gitlab-snip-helm-user-token "SECRET-TOKEN")
+     (setq gitlab-snip-helm-visibility "public")
+     (setq gitlab-snip-helm-server "https://gitlab.com")
    #+END_SRC
 
 ** Usage
    
 [[https://gitlab.com/sasanidas/gitlab-snip/-/raw/master/examples/snip.gif]]
 
-   Main function is:
+   Save the snippet in the selected gitlab server
      #+BEGIN_SRC emacs-lisp 
-     (gitlab-snip-send)
+     (gitlab-snip-helm-save)
    #+END_SRC
+   
+   Insert a saved snippet in the current mark with helm
+     #+BEGIN_SRC emacs-lisp 
+     (gitlab-snip-helm-insert)
+   #+END_SRC
+
 
    
 ** License
-gitlab-snip Copyright © 2020 by Fermin Munoz <fmfs@posteo.net>
+gitlab-snip-helm Copyright © 2020 by Fermin Munoz <fmfs@posteo.net>
 
-gitlab-snip is free software: you can redistribute it and/or modify
+gitlab-snip-helm is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-gitlab-snip is distributed in the hope that it will be useful,
+gitlab-snip-helm is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with gitlab-snip.  If not, see <http://www.gnu.org/licenses/>.
+along with gitlab-snip-helm.  If not, see <http://www.gnu.org/licenses/>.
