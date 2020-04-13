@@ -8,7 +8,7 @@
 ;; Keywords: tools,files,convenience
 
 ;; URL: https://gitlab.com/sasanidas/gitlab-snip
-;; Package-Requires: ((emacs "25") (dash "2.17.0") (helm "1.5.9"))
+;; Package-Requires: ((emacs "25") (dash "2.12.0") (helm "3.2"))
 ;; License: GPL-3.0-or-later
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 ;;; Commentary:
 
-;; This package manage gitlab snippets with the help of helm framework.
+;; This package manage gitlab snippets with the help of the helm framework.
 
 ;;; Code:
 
@@ -44,7 +44,7 @@
   "Gitlab server to save the snippets.")
 
 
-(defun gitlab-snip-helm-send ()
+(defun gitlab-snip-helm-save ()
   "Create an snippet with the selected area and send it to the gitlab selected server."
   (interactive)
   (let* ((snippet--name (read-from-minibuffer "Insert snippet name: "))
@@ -55,14 +55,14 @@
 	((url-request-method "POST")
 	 (url-request-extra-headers
 	  (list (cons "Content-Type"  "application/json")
-		(cons "Private-Token"  gitlab-snip-user-token)))
+		(cons "Private-Token"  gitlab-snip-helm-user-token)))
 	 (url-request-data (concat
 			    "{\"title\": \"" snippet--name " \",
                          \"content\": "snippet--text",
                          \"description\": \"" snippet--description"\",
                          \"file_name\": \"" (buffer-name) "\",
-                         \"visibility\": \""gitlab-snip-visibility"\" }")))
-      (url-retrieve-synchronously (concat gitlab-snip-server "/api/v4/snippets")))))
+                         \"visibility\": \""gitlab-snip-helm-visibility"\" }")))
+      (url-retrieve-synchronously (concat gitlab-snip-helm-server "/api/v4/snippets")))))
 
 
 (defun gitlab-snip-helm--actions ( action &optional  snippet-id)
@@ -70,7 +70,7 @@
   (cond ((string-equal action "Insert")
 	 (with-current-buffer (let
 				  ((url-request-extra-headers
-				    (list (cons "Private-Token" gitlab-snip-user-token))))
+				    (list (cons "Private-Token" gitlab-snip-helm-user-token))))
 				(url-retrieve-synchronously (concat "https://gitlab.com/api/v4/snippets/" snippet-id "/raw")))
 	   (goto-char (point-min))
 	   (re-search-forward "^$")
@@ -81,11 +81,11 @@
 	 (with-current-buffer
 	     (let
 		 ((url-request-extra-headers
-		   (list (cons "Private-Token" gitlab-snip-user-token))))
+		   (list (cons "Private-Token" gitlab-snip-helm-user-token))))
 	       (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
 	   (json-read)))))
 
-(defun gitlab-snip-helm-snippets ()
+(defun gitlab-snip-helm-insert ()
   "Helm extension that insert the selected snippet in the current buffer mark."
   (interactive)
   (let* ((helm-source-user-snippets
@@ -99,7 +99,7 @@
 												  (if (string-equal selected (cdr (nth 1 x)) )
 												      (number-to-string (cdr (nth 0 x)))))
 												(gitlab-snip-helm--actions "Get-snippets"))))))
-							       (gitlab--snippet--actions "Insert" snippet--id )))))))))
+							       (gitlab-snip-helm--actions "Insert" snippet--id )))))))))
     (helm :sources (list  helm-source-user-snippets)
 	  :buffer "*helm gitlab-snip*")))
 
