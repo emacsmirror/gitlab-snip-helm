@@ -5,7 +5,7 @@
 ;; Author: Fermin MF <fmfs@posteo.net>
 ;; Created: 13 Abril 2020
 ;; Version: 0.0.2
-;; Keywords: helm,gitlab,snippet,snippets
+;; Keywords: tools,files,convenience
 
 ;; URL: https://gitlab.com/sasanidas/gitlab-snip
 ;; Package-Requires: ((emacs "25") (dash "2.17.0") (helm "1.5.9"))
@@ -34,13 +34,13 @@
 (require 'helm)
 (require 'json)
 
-(defvar gitlab-snip-user-token ""
+(defvar gitlab-snip-helm-user-token ""
   "This is the required token for using the api: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html.")
 
-(defvar gitlab-snip-visibility "public"
+(defvar gitlab-snip-helm-visibility "public"
   "Snippets default visibility.")
 
-(defvar gitlab-snip-server "https://gitlab.com"
+(defvar gitlab-snip-helm-server "https://gitlab.com"
   "Gitlab server to save the snippets.")
 
 
