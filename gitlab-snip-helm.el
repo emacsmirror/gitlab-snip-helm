@@ -117,7 +117,7 @@ It requires SNIPPET-ID as parameter."
 											 (if (string-equal selected (cdr (nth 1 x)) )
 											     (number-to-string (cdr (nth 0 x)))))
 										       (gitlab-snip-helm--action-get-snippets))))))
-							       (gitlab-snip-helm--action-get-snippets snippet--id)))))))))
+							       (gitlab-snip-helm--action-insert snippet--id)))))))))
     (helm :sources (list  helm-source-user-snippets)
 	  :buffer "*helm gitlab-snip*")))
 
