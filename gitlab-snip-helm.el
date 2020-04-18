@@ -34,18 +34,34 @@
 (require 'helm)
 (require 'json)
 
-(defvar gitlab-snip-helm-user-token ""
-  "This is the required token for using the api: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html.")
+(defgroup gitlab-snip-helm nil
+  "Basic IDE group declaration"
+  :prefix "gitlan-snip-helm-"
+  :group 'development)
 
-(defvar gitlab-snip-helm-visibility "public"
-  "Snippets default visibility.")
+(defcustom gitlab-snip-helm-user-token ""
+  "This is the API required token.
+https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html."
+  :group 'gitlab-snip-helm
+  :type 'string)
 
-(defvar gitlab-snip-helm-server "https://gitlab.com"
-  "Gitlab server to save the snippets.")
+(defcustom gitlab-snip-helm-visibility "public"
+  "Snippets visibility."
+  :group 'gitlab-snip-helm
+  :type '(choice (const :tag "Snippet can be accessed without any authentication." "public")
+		 (const :tag "Snippet is visible for any logged in user." "internal")
+		 (const :tag "Snippet is visible only to the snippet creator." "private")))
+
+(defcustom gitlab-snip-helm-server "https://gitlab.com"
+  "Gitlab server to save the snippets."
+  :group 'gitlab-snip-helm
+  :type 'string)
+
 
 
 (defun gitlab-snip-helm-save ()
-  "Create an snippet with the selected area and send it to the gitlab selected server."
+  "Create a snippet from the region.
+Send it to the GitLab server at `gitlab-snip-helm-server'."
   (interactive)
   (let* ((snippet--name (read-from-minibuffer "Insert snippet name: "))
 	 (snippet--description (read-from-minibuffer "Insert the snippet description: "))
@@ -87,7 +103,7 @@ It requires SNIPPET-ID as parameter."
     (json-read)))
 
 (defun gitlab-snip-helm-insert ()
-  "Insert the selected snippet in the current mark."
+  "Insert the selected snippet in the current buffer."
   (interactive)
   (let* ((helm-source-user-snippets
 	  (helm-build-sync-source "gitlab-snip"
