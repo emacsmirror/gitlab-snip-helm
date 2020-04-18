@@ -10,7 +10,7 @@
     You can install it with [[https://github.com/quelpa/quelpa][quelpa]]:
 
      #+BEGIN_SRC emacs-lisp 
-     (quelpa '(gitlab-snip-helm :fetcher git :url "https://gitlab.com/sasanidas/gitlab-snip.git"))
+     (quelpa '(gitlab-snip-helm :fetcher git :url "https://gitlab.com/sasanidas/gitlab-snip-helm.git"))
    #+END_SRC
 
 *** Melpa
