@@ -7,7 +7,7 @@
 ;; Version: 0.0.2
 ;; Keywords: tools,files,convenience
 
-;; URL: https://gitlab.com/sasanidas/gitlab-snip
+;; URL: https://gitlab.com/sasanidas/gitlab-snip-helm
 ;; Package-Requires: ((emacs "25") (dash "2.12.0") (helm "3.2"))
 ;; License: GPL-3.0-or-later
 
