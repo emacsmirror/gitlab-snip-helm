@@ -65,41 +65,43 @@
       (url-retrieve-synchronously (concat gitlab-snip-helm-server "/api/v4/snippets")))))
 
 
-(defun gitlab-snip-helm--actions ( action &optional  snippet-id)
-  "Helped function to define the diferent snippets acctions, it requires the action defined string ACTION and an optional SNIPPET-ID."
-  (cond ((string-equal action "Insert")
-	 (with-current-buffer (let
-				  ((url-request-extra-headers
-				    (list (cons "Private-Token" gitlab-snip-helm-user-token))))
-				(url-retrieve-synchronously (concat "https://gitlab.com/api/v4/snippets/" snippet-id "/raw")))
-	   (goto-char (point-min))
-	   (re-search-forward "^$")
-	   (delete-region (point) (point-min))
-	   (buffer-string)))
+(defun gitlab-snip-helm--action-insert (snippet-id)
+  "Insert the selected snippet in the current buffer.
+It requires SNIPPET-ID as parameter."
+  (with-current-buffer (let
+			   ((url-request-extra-headers
+			     (list (cons "Private-Token" gitlab-snip-helm-user-token))))
+			 (url-retrieve-synchronously (concat "https://gitlab.com/api/v4/snippets/" snippet-id "/raw")))
+    (goto-char (point-min))
+    (re-search-forward "^$")
+    (delete-region (point) (point-min))
+    (buffer-string)))
 
-	((string-equal action "Get-snippets")
-	 (with-current-buffer
-	     (let
-		 ((url-request-extra-headers
-		   (list (cons "Private-Token" gitlab-snip-helm-user-token))))
-	       (url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
-	   (json-read)))))
+(defun gitlab-snip-helm--action-get-snippets ()
+  "Get all the user snippets."
+  (with-current-buffer
+      (let
+	  ((url-request-extra-headers
+	    (list (cons "Private-Token" gitlab-snip-helm-user-token))))
+	(url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
+    (json-read)))
 
 (defun gitlab-snip-helm-insert ()
-  "Helm extension that insert the selected snippet in the current buffer mark."
+  "Insert the selected snippet in the current mark."
   (interactive)
   (let* ((helm-source-user-snippets
 	  (helm-build-sync-source "gitlab-snip"
 	    :candidates (-map (lambda (x)
 				(cdr (nth 1 x)))
-			      (gitlab-snip-helm--actions "Get-snippets"))
+			      (gitlab-snip-helm--action-get-snippets))
 	    :action '(("Insert" . (lambda (selected) (insert (let*
 								 ((snippet--id (car
-										(-non-nil (-map (lambda (x)
-												  (if (string-equal selected (cdr (nth 1 x)) )
-												      (number-to-string (cdr (nth 0 x)))))
-												(gitlab-snip-helm--actions "Get-snippets"))))))
-							       (gitlab-snip-helm--actions "Insert" snippet--id )))))))))
+										(-non-nil
+										 (-map (lambda (x)
+											 (if (string-equal selected (cdr (nth 1 x)) )
+											     (number-to-string (cdr (nth 0 x)))))
+										       (gitlab-snip-helm--action-get-snippets))))))
+							       (gitlab-snip-helm--action-get-snippets snippet--id)))))))))
     (helm :sources (list  helm-source-user-snippets)
 	  :buffer "*helm gitlab-snip*")))
 
