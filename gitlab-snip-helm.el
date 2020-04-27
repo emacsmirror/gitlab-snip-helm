@@ -87,7 +87,7 @@ It requires SNIPPET-ID as parameter."
   (with-current-buffer (let
 			   ((url-request-extra-headers
 			     (list (cons "Private-Token" gitlab-snip-helm-user-token))))
-			 (url-retrieve-synchronously (concat "https://gitlab.com/api/v4/snippets/" snippet-id "/raw")))
+			 (url-retrieve-synchronously (concat gitlab-snip-helm-server "/api/v4/snippets/" snippet-id "/raw")))
     (goto-char (point-min))
     (re-search-forward "^$")
     (delete-region (point) (point-min))
@@ -99,7 +99,7 @@ It requires SNIPPET-ID as parameter."
       (let
 	  ((url-request-extra-headers
 	    (list (cons "Private-Token" gitlab-snip-helm-user-token))))
-	(url-retrieve-synchronously "https://gitlab.com/api/v4/snippets"))
+	(url-retrieve-synchronously (concat gitlab-snip-helm-server "/api/v4/snippets")))
     (json-read)))
 
 (defun gitlab-snip-helm-insert ()
