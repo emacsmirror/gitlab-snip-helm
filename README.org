@@ -1,5 +1,7 @@
 * Gitlab-snip-helm
 [[License: GPL v3][https://img.shields.io/badge/License-GPLv3-blue.svg]]
+[[https://melpa.org/#/gitlab-snip-helm][file:https://melpa.org/packages/gitlab-snip-helm-badge.svg]]
+[[https://stable.melpa.org/#/gitlab-snip-helm][file:https://stable.melpa.org/packages/gitlab-snip-helm-badge.svg]]
  
   Package that provide gitlab snippet API interaction, for now it support:
   + Save a snippet
@@ -14,7 +16,9 @@
    #+END_SRC
 
 *** Melpa
-    WIP
+
+     =M-x package-install RET gitlab-snip-helm RET= to install =gitlab-snip-helm= from [[https://melpa.org/][MELPA]].
+     
 ** Configuration
    
      #+BEGIN_SRC emacs-lisp 
