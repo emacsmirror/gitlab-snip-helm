@@ -4,7 +4,7 @@
 
 ;; Author: Fermin MF <fmfs@posteo.net>
 ;; Created: 13 Abril 2020
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: tools,files,convenience
 
 ;; URL: https://gitlab.com/sasanidas/gitlab-snip-helm
