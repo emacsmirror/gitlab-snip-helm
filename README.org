@@ -2,6 +2,7 @@
 [[License: GPL v3][https://img.shields.io/badge/License-GPLv3-blue.svg]]
 [[https://melpa.org/#/gitlab-snip-helm][file:https://melpa.org/packages/gitlab-snip-helm-badge.svg]]
 [[https://stable.melpa.org/#/gitlab-snip-helm][file:https://stable.melpa.org/packages/gitlab-snip-helm-badge.svg]]
+[[https://github.com/quelpa/quelpa][file:https://img.shields.io/badge/quelpa-gitlab--snip--helm-blue.svg]]
  
   Package that provide gitlab snippet API interaction, for now it support:
   + Save a snippet
